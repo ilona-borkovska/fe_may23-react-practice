@@ -13,22 +13,22 @@ const sortProducts = (products, col, direction) => {
   const copyProducts = [...products];
 
   switch (col) {
-    case 'id':
+    case SORT_BY_ID:
       copyProducts.sort((product1, product2) => (
         product1.id - product2.id));
       break;
 
-    case 'product':
+    case SORT_BY_PRODUCT:
       copyProducts.sort((product1, product2) => (
         product1.name.localeCompare(product2.name)));
       break;
 
-    case 'category':
+    case SORT_BY_CATEGORY:
       copyProducts.sort((product1, product2) => (
         product1.category.title.localeCompare(product2.category.title)));
       break;
 
-    case 'user':
+    case SORT_BY_USER:
       copyProducts.sort((product1, product2) => (
         product1.user.name.localeCompare(product2.user.name)));
       break;
