@@ -74,13 +74,8 @@ export const ProductTable = ({ products }) => {
     }
   };
 
-  const setClassNamesForIcon = (type, colName) => {
-    if (sortDirection === type && sortedColName === colName) {
-      return true;
-    }
-
-    return false;
-  };
+  const setClassNamesForIcon = (type, colName) => (
+    sortDirection === type && sortedColName === colName);
 
   return (
     <table
