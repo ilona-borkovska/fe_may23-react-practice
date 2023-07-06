@@ -1,6 +1,14 @@
 import cn from 'classnames';
 import { useState } from 'react';
 
+const SORT_DEFAULT = 'fa-sort';
+const SORT_ASC = 'fa-sort-up';
+const SORT_DESC = 'fa-sort-down';
+const SORT_BY_ID = 'id';
+const SORT_BY_CATEGORY = 'category';
+const SORT_BY_PRODUCT = 'product';
+const SORT_BY_USER = 'user';
+
 const sortProducts = (products, col, direction) => {
   const copyProducts = [...products];
 
@@ -29,8 +37,12 @@ const sortProducts = (products, col, direction) => {
       return copyProducts;
   }
 
-  if (direction === 'fa-sort-up') {
+  if (direction === SORT_DESC) {
     return copyProducts.reverse();
+  }
+
+  if (direction === SORT_DEFAULT) {
+    return products;
   }
 
   return copyProducts;
@@ -38,25 +50,28 @@ const sortProducts = (products, col, direction) => {
 
 export const ProductTable = ({ products }) => {
   const [sortedColName, setSortedColName] = useState('');
-  const [sortDirection, setSortDirection] = useState('');
+  const [sortDirection, setSortDirection] = useState(SORT_DEFAULT);
   const sortedProducts = sortProducts(products, sortedColName, sortDirection);
 
-  const handleSortClick = (currentSortType) => {
-    if (currentSortType === 'fa-sort') {
-      setSortDirection('fa-sort-up');
+  const handleSortClick = (sortType) => {
+    setSortedColName(sortType);
+
+    if (sortType !== sortedColName && sortType !== '') {
+      setSortDirection(SORT_ASC);
 
       return 0;
     }
 
-    if (currentSortType === 'fa-sort-up') {
-      setSortDirection('fa-sort-up');
+    switch (sortDirection) {
+      case SORT_DEFAULT:
+        return setSortDirection(SORT_ASC);
 
-      return 0;
+      case SORT_ASC:
+        return setSortDirection(SORT_DESC);
+
+      default:
+        return setSortDirection(SORT_DEFAULT);
     }
-
-    setSortDirection('fa-sort');
-
-    return 0;
   };
 
   const setClassNamesForIcon = (type, colName) => {
@@ -80,21 +95,18 @@ export const ProductTable = ({ products }) => {
 
               <a
                 href="#/"
-                onClick={() => {
-                  setSortedColName('id');
-                  handleSortClick('fa-sort');
-                }}
+                onClick={() => handleSortClick(SORT_BY_ID)}
               >
                 <span className="icon">
                   <i
                     data-cy="SortIcon"
                     className={cn('fas', {
-                      'fa-sort': setClassNamesForIcon('fa-sort', 'id')
-                        || sortedColName !== 'id',
-                      'fa-sort-up': setClassNamesForIcon('fa-sort-up', 'id'),
+                      'fa-sort': setClassNamesForIcon(SORT_DEFAULT, SORT_BY_ID)
+                        || sortedColName !== SORT_BY_ID,
+                      'fa-sort-up': setClassNamesForIcon(SORT_ASC, SORT_BY_ID),
                       'fa-sort-down': setClassNamesForIcon(
-                        'fa-sort-down',
-                        'id',
+                        SORT_DESC,
+                        SORT_BY_ID,
                       ),
                     })}
                   />
@@ -109,24 +121,24 @@ export const ProductTable = ({ products }) => {
 
               <a
                 href="#/"
-                onClick={() => {
-                  setSortedColName('product');
-                  handleSortClick('fa-sort');
-                }}
+                onClick={() => handleSortClick(SORT_BY_PRODUCT)}
               >
                 <span className="icon">
                   <i
                     data-cy="SortIcon"
                     className={cn('fas', {
-                      'fa-sort': setClassNamesForIcon('fa-sort', 'product')
-                        || sortedColName !== 'product',
+                      'fa-sort': setClassNamesForIcon(
+                        SORT_DEFAULT,
+                        SORT_BY_PRODUCT,
+                      )
+                        || sortedColName !== SORT_BY_PRODUCT,
                       'fa-sort-up': setClassNamesForIcon(
-                        'fa-sort-up',
-                        'product',
+                        SORT_ASC,
+                        SORT_BY_PRODUCT,
                       ),
                       'fa-sort-down': setClassNamesForIcon(
-                        'fa-sort-down',
-                        'product',
+                        SORT_DESC,
+                        SORT_BY_PRODUCT,
                       ),
                     })}
                   />
@@ -141,24 +153,24 @@ export const ProductTable = ({ products }) => {
 
               <a
                 href="#/"
-                onClick={() => {
-                  setSortedColName('category');
-                  handleSortClick('fa-sort');
-                }}
+                onClick={() => handleSortClick(SORT_BY_CATEGORY)}
               >
                 <span className="icon">
                   <i
                     data-cy="SortIcon"
                     className={cn('fas', {
-                      'fa-sort': setClassNamesForIcon('fa-sort', 'category')
-                        || sortedColName !== 'category',
+                      'fa-sort': setClassNamesForIcon(
+                        SORT_DEFAULT,
+                        SORT_BY_CATEGORY,
+                      )
+                        || sortedColName !== SORT_BY_CATEGORY,
                       'fa-sort-up': setClassNamesForIcon(
-                        'fa-sort-up',
-                        'category',
+                        SORT_ASC,
+                        SORT_BY_CATEGORY,
                       ),
                       'fa-sort-down': setClassNamesForIcon(
-                        'fa-sort-down',
-                        'category',
+                        SORT_DESC,
+                        SORT_BY_CATEGORY,
                       ),
                     })}
                   />
@@ -173,24 +185,24 @@ export const ProductTable = ({ products }) => {
 
               <a
                 href="#/"
-                onClick={() => {
-                  setSortedColName('user');
-                  handleSortClick('fa-sort');
-                }}
+                onClick={() => handleSortClick(SORT_BY_USER)}
               >
                 <span className="icon">
                   <i
                     data-cy="SortIcon"
                     className={cn('fas', {
-                      'fa-sort': setClassNamesForIcon('fa-sort', 'user')
-                        || sortedColName !== 'user',
+                      'fa-sort': setClassNamesForIcon(
+                        SORT_DEFAULT,
+                        SORT_BY_USER,
+                      )
+                        || sortedColName !== SORT_BY_USER,
                       'fa-sort-up': setClassNamesForIcon(
-                        'fa-sort-up',
-                        'user',
+                        SORT_ASC,
+                        SORT_BY_USER,
                       ),
                       'fa-sort-down': setClassNamesForIcon(
-                        'fa-sort-down',
-                        'user',
+                        SORT_DESC,
+                        SORT_BY_USER,
                       ),
                     })}
                   />
